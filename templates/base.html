@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI 관상가{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="background-texture"></div>
+    
+    <!-- 민화 장식 요소들 -->
+    <div class="minhwa-decorations">
+        <div class="minhwa-element minhwa-tiger-left">
+            <img src="{{ url_for('static', filename='images/minhwa/tiger-magpie-1.jpg') }}" alt="호랑이와 까치 민화">
+        </div>
+        <div class="minhwa-element minhwa-dragon-right">
+            <img src="{{ url_for('static', filename='images/minhwa/dragon-painting.jpg') }}" alt="용 민화">
+        </div>
+        <div class="minhwa-element minhwa-tiger-bottom">
+            <img src="{{ url_for('static', filename='images/minhwa/tiger-magpie-2.jpg') }}" alt="호랑이와 까치 민화">
+        </div>
+        <div class="minhwa-element minhwa-flowers-top">
+            <img src="{{ url_for('static', filename='images/minhwa/Korea-Minhwa-Hwajodo-flowers_and_birds-01.jpg') }}" alt="화조도 민화">
+        </div>
+        <div class="minhwa-element minhwa-books-left">
+            <img src="{{ url_for('static', filename='images/minhwa/Minhwa-Chaekgeoli-01.JPG') }}" alt="책거리 민화">
+        </div>
+        <div class="minhwa-element minhwa-puppy-right">
+            <img src="{{ url_for('static', filename='images/minhwa/puppy-flowers-birds.jpg') }}" alt="강아지와 꽃새 민화">
+        </div>
+        <div class="minhwa-element minhwa-crane-top-right">
+            <img src="{{ url_for('static', filename='images/minhwa/crane-peach.jpg') }}" alt="학과 복숭아 민화">
+        </div>
+    </div>
+
+    <main class="main-container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 AI 관상가. 모든 풀이는 재미를 위한 것입니다.</p>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

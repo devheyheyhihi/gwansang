@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}AI 관상가 - 운명의 지혜를 묻다{% endblock %}
+
+{% block content %}
+<header class="main-header">
+    <h1 class="title">AI 관상가</h1>
+    <p class="subtitle">얼굴에 담긴 당신의 이야기를 풀어드립니다</p>
+    <div class="title-decoration"></div>
+</header>
+
+<div class="upload-container">
+    <h1>🎭 관상으로 보는 당신의 운명 🎭</h1>
+    <p class="subtitle">천년의 지혜가 담긴 한국 전통 관상학으로<br>
+    당신의 얼굴에 숨겨진 운명의 비밀을 알아보세요</p>
+    
+    <div class="upload-area" id="uploadArea">
+        <div class="upload-content">
+            <div class="upload-icon">📸</div>
+            <h3>얼굴 사진을 업로드하세요</h3>
+            <p>정면을 바라보는 선명한 사진을 올려주시면<br>
+            전통 관상학에 따른 운명 해석을 제공해드립니다</p>
+            <input type="file" id="imageInput" name="image" accept="image/*" required>
+            <label for="imageInput" class="upload-button">
+                사진 선택하기
+            </label>
+        </div>
+    </div>
+</div>
+
+<div id="loading" style="display: none;">
+    <div class="loader-container">
+        <div class="loader"></div>
+        <div class="loader-decoration">🔮</div>
+    </div>
+    <p class="loading-text">하늘의 뜻을 읽고 있습니다...</p>
+</div>
+
+{% if result %}
+<section id="result-section" class="content-wrapper">
+    <h2 class="result-title">관상 풀이 결과</h2>
+    
+    {% if result.success %}
+    <div class="result-grid">
+        <div class="result-card image-card">
+            <h3 class="card-title">귀하의 용안</h3>
+            <div class="image-frame">
+                <img src="{{ url_for('static', filename='uploads/' + image_file) }}" alt="분석한 얼굴" class="analyzed-image">
+            </div>
+        </div>
+        <div class="result-card overall-card">
+            <h3 class="card-title">종합 총평</h3>
+            <p>{{ result.overall }}</p>
+        </div>
+        {% for feature, description in result.features.items() %}
+        <div class="result-card feature-card">
+            <h4 class="card-title">{{ feature }}</h4>
+            <p>{{ description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="error-card">
+        <h3>오류</h3>
+        <p>{{ result.error }}</p>
+    </div>
+    {% endif %}
+
+    <a href="/" class="btn btn-secondary">
+        <span class="btn-text">다른 운명 보기</span>
+        <span class="btn-decoration">🌟</span>
+    </a>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

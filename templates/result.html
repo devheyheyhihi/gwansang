@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}관상 풀이 결과 - AI 관상가{% endblock %}
+
+{% block content %}
+    {% if result and result.face_detected %}
+    <div class="result-container">
+        <h1 class="result-title">🔮 당신의 관상 운명 풀이 🔮</h1>
+        
+        <!-- 전체적인 성격 분석 -->
+        <div class="fortune-section personality-section">
+            <h2>✨ 성격 및 기질</h2>
+            <div class="fortune-content">
+                <p class="main-reading">{{ result.fortune.overall }}</p>
+            </div>
+        </div>
+
+        <!-- 운세 분석 -->
+        <div class="fortune-section fortune-main">
+            <h2>🌟 전체 운세</h2>
+            <div class="fortune-content">
+                <p class="main-reading">{{ result.fortune.fortune }}</p>
+            </div>
+        </div>
+
+        <!-- 직업운 -->
+        <div class="fortune-section career-section">
+            <h2>💼 직업 및 사업운</h2>
+            <div class="fortune-content">
+                <p class="main-reading">{{ result.fortune.career }}</p>
+            </div>
+        </div>
+
+        <!-- 건강운 -->
+        <div class="fortune-section health-section">
+            <h2>🏥 건강운</h2>
+            <div class="fortune-content">
+                <p class="main-reading">{{ result.fortune.health }}</p>
+            </div>
+        </div>
+
+        <!-- 지혜운 -->
+        <div class="fortune-section wisdom-section">
+            <h2>🧠 지혜 및 학업운</h2>
+            <div class="fortune-content">
+                <p class="main-reading">{{ result.fortune.wisdom }}</p>
+            </div>
+        </div>
+
+        <!-- 행운의 요소들 -->
+        <div class="fortune-section lucky-section">
+            <h2>🍀 행운의 요소들</h2>
+            <div class="fortune-content">
+                <div class="lucky-grid">
+                    <div class="lucky-item">
+                        <span class="lucky-label">행운의 색상:</span>
+                        <span class="lucky-value">{{ result.fortune.lucky_elements.color }}</span>
+                    </div>
+                    <div class="lucky-item">
+                        <span class="lucky-label">행운의 방향:</span>
+                        <span class="lucky-value">{{ result.fortune.lucky_elements.direction }}</span>
+                    </div>
+                    <div class="lucky-item">
+                        <span class="lucky-label">행운의 숫자:</span>
+                        <span class="lucky-value">{{ result.fortune.lucky_elements.number }}</span>
+                    </div>
+                    <div class="lucky-item">
+                        <span class="lucky-label">행운의 보석:</span>
+                        <span class="lucky-value">{{ result.fortune.lucky_elements.stone }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 인생 조언 -->
+        <div class="fortune-section advice-section">
+            <h2>💡 인생 조언</h2>
+            <div class="fortune-content">
+                <ul class="advice-list">
+                    {% for advice in result.fortune.advice %}
+                    <li class="advice-item">{{ advice }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- 얼굴 분석 정보 -->
+        <div class="fortune-section analysis-section">
+            <h2>📊 얼굴 분석 정보</h2>
+            <div class="fortune-content">
+                <div class="analysis-grid">
+                    <div class="analysis-item">
+                        <span class="analysis-label">얼굴형:</span>
+                        <span class="analysis-value">{{ result.analysis.face_shape }}</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span class="analysis-label">얼굴 크기:</span>
+                        <span class="analysis-value">{{ result.analysis.face_size }}</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span class="analysis-label">얼굴 비율:</span>
+                        <span class="analysis-value">{{ result.analysis.face_ratio }}</span>
+                    </div>
+                    <div class="analysis-item">
+                        <span class="analysis-label">이마 비율:</span>
+                        <span class="analysis-value">{{ result.analysis.forehead_proportion }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">다시 분석하기</a>
+            <button onclick="shareResult()" class="btn btn-secondary">결과 공유하기</button>
+        </div>
+    </div>
+    {% else %}
+    <div class="error-container">
+        <h2>😔 분석 결과를 불러올 수 없습니다</h2>
+        <p>{{ result.message if result else '올바르지 않은 요청입니다.' }}</p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary">다시 시도하기</a>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function shareResult() {
+        if (navigator.share) {
+            navigator.share({
+                title: '관상 운명 풀이 결과',
+                text: '나의 관상 운명을 확인해보세요!',
+                url: window.location.href
+            });
+        } else {
+            // 폴백: URL 복사
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('결과 링크가 복사되었습니다!');
+            });
+        }
+    }
+</script>
+{% endblock %}
